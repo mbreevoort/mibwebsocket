@@ -11,7 +11,7 @@ import java.util.stream.StreamSupport;
 
 public class ClockStream {
 
-    public LongStream clockStream() {
+    public static LongStream clockStream() {
         final PrimitiveIterator.OfLong iterator = new PrimitiveIterator.OfLong() {
 
 
