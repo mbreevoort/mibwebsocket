@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Cam</title>
+    <base href="/cam/">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+    <script src="cam.js"></script>
+</head>
+<body ng-app="CamApp">
+<div ng-controller="MainController">
+    <div ng-view></div>
+
+    <div ng-controller="CamdirsController">
+
+        <p>Camdirs</p>
+
+        <ul>
+            <li ng-repeat="dir in camdirs  | orderBy:'-'">
+                <a href="camview/{{dir}}">{{dir}}</a>
+                /images/cam1/20151220/084819-00.jpg
+            </li>
+            <li ng-if="results.length == 0">
+                <strong>No results found...</strong>
+            </li>
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>

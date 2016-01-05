@@ -1,0 +1,17 @@
+controller: {{name}}<br/>
+selected dir : {{params.dir}}<br/>
+<ul>
+    <li ng-repeat="camfile in camfiles  | filter:'.avi' | orderBy:'-'">
+        <a href="/images/cam1/{{params.dir}}/{{camfile}}">{{camfile}}</a>
+    </li>
+
+    <li>
+        <span ng-repeat="camfile in camfiles  | filter:'.jpg' | orderBy:'-'"><img
+                src="/images/cam1/{{params.dir}}/{{camfile}}"/></span>
+
+    </li>
+
+    <li ng-if="results.length == 0">
+        <strong>No results found...</strong>
+    </li>
+</ul>
