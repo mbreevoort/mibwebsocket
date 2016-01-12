@@ -1,17 +1,21 @@
 controller: {{name}}<br/>
 selected dir : {{params.dir}}<br/>
+<hr>
+
+<img ng-repeat="camfile in camfiles  | filter:'.jpg' | orderBy:'+'" class="slide"
+     ng-hide="!isCurrentSlideIndex($index)" ng-src="/images/cam1/{{params.dir}}/{{camfile}}">
+<br/>
+<a class="arrow prev" href="#" ng-click="nextSlide()">next</a>
+<a class="arrow next" href="#" ng-click="prevSlide()">prev</a>
+<br/>
+<label for="sliderCtrl">Slider</label>
+<a href="#" id="sliderCtrl" ng-hide="!isSliderStarted()" ng-click="stopSlider()">stop</a>
+<a href="#" ng-hide="isSliderStarted()" ng-click="startSlider()">start</a>
+<p>
+    Current index {{currentIndex}} of {{camfiles.length}} images.
+</p>
 <ul>
     <li ng-repeat="camfile in camfiles  | filter:'.avi' | orderBy:'-'">
         <a href="/images/cam1/{{params.dir}}/{{camfile}}">{{camfile}}</a>
-    </li>
-
-    <li>
-        <span ng-repeat="camfile in camfiles  | filter:'.jpg' | orderBy:'-'"><img
-                src="/images/cam1/{{params.dir}}/{{camfile}}"/></span>
-
-    </li>
-
-    <li ng-if="results.length == 0">
-        <strong>No results found...</strong>
     </li>
 </ul>

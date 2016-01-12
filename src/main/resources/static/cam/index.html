@@ -6,9 +6,9 @@
     <base href="/cam/">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
-    <script src="cam.js"></script>
+    <script src="camImgApp.js"></script>
 </head>
-<body ng-app="CamApp">
+<body ng-app="CamImgApp">
 <div ng-controller="MainController">
     <div ng-view></div>
 
@@ -19,7 +19,6 @@
         <ul>
             <li ng-repeat="dir in camdirs  | orderBy:'-'">
                 <a href="camview/{{dir}}">{{dir}}</a>
-                /images/cam1/20151220/084819-00.jpg
             </li>
             <li ng-if="results.length == 0">
                 <strong>No results found...</strong>

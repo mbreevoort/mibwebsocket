@@ -1,5 +1,7 @@
 package nl.mib.websocket;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,10 +17,13 @@ import java.util.stream.Collectors;
 
 @RestController
 public class CamImagesController {
+    @Autowired
+    Environment env;
+
     @RequestMapping("/cam1/listdirs")
     public List<String> listDirs() {
         List<String> dirs = new ArrayList<>();
-        Path path = Paths.get(URI.create(MibwebsocketApplication.FILE_MNT_SHARE_DATA_MOTION_CAM1));
+        Path path = Paths.get(URI.create(env.getRequiredProperty(MibwebsocketApplication.PROPERTY_CAM_IMAGES_ROOT_DIR)));
         try (DirectoryStream<Path> paths = Files.newDirectoryStream(path)) {
             paths.forEach(p -> dirs.add(p.getFileName().toString()));
         } catch (IOException e) {
@@ -30,7 +35,7 @@ public class CamImagesController {
 
     @RequestMapping("/cam1/list/{dir}")
     public Map<String, List<String>> listdir(@PathVariable("dir") String startdir) throws IOException {
-        Path rootDir = Paths.get(URI.create(MibwebsocketApplication.FILE_MNT_SHARE_DATA_MOTION_CAM1 + startdir));
+        Path rootDir = Paths.get(URI.create(env.getRequiredProperty(MibwebsocketApplication.PROPERTY_CAM_IMAGES_ROOT_DIR) + startdir));
         List<Path> dirs = Collections.singletonList(rootDir);
 
         Map<String, List<String>> dirToPath = dirs.stream()//
@@ -41,7 +46,7 @@ public class CamImagesController {
 
     @RequestMapping("/cam1/listall")
     public Map<String, List<String>> listall() throws IOException {
-        Path rootDir = Paths.get(URI.create(MibwebsocketApplication.FILE_MNT_SHARE_DATA_MOTION_CAM1));
+        Path rootDir = Paths.get(URI.create(env.getRequiredProperty(MibwebsocketApplication.PROPERTY_CAM_IMAGES_ROOT_DIR)));
         List<Path> dirs = listFiles(rootDir);
 
         Map<String, List<String>> dirToPath = dirs.stream()//
