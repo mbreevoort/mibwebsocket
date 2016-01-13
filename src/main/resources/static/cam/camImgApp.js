@@ -5,7 +5,7 @@ angular.module('CamImgApp', ['ngRoute'])
         $scope.$routeParams = $routeParams;
     })
     .controller('CamdirsController', ['$scope', '$http', CamdirsController])
-    .controller('CamviewController', ['$scope', '$http', '$routeParams', '$interval', CamviewController])
+    .controller('CamviewController', ['$scope', '$http', '$routeParams', '$interval', '$filter', CamviewController])
     .config(function ($routeProvider, $locationProvider) {
         $routeProvider
             .when('/camview/:dir', {
@@ -43,14 +43,21 @@ function CamdirsController($scope, $http) {
     });
 }
 
-function CamviewController($scope, $http, $routeParams, $interval) {
+function CamviewController($scope, $http, $routeParams, $interval, $filter) {
     //$scope.name = "CamviewController";
     $scope.params = $routeParams;
     var sliderInterval;
+
+    function filterImagesAndSort(camfiles) {
+        var imageFiles = $filter('filter')(camfiles, '.jpg');
+        return $filter('orderBy')(imageFiles, '+');
+    }
+
     $http({method: 'GET', url: '/cam1/list/' + $scope.params.dir}).
     then(function (response) {
         $scope.status = response.status;
         $scope.camfiles = response.data[$scope.params.dir];
+        $scope.camimages = filterImagesAndSort($scope.camfiles);
         $scope.startSlider();
     }, function (response) {
         $scope.camfiles = response.data || "Request failed";
@@ -68,11 +75,11 @@ function CamviewController($scope, $http, $routeParams, $interval) {
     };
 
     $scope.prevSlide = function () {
-        $scope.currentIndex = ($scope.currentIndex > 0) ? --$scope.currentIndex : $scope.camfiles.length - 1;
+        $scope.currentIndex = ($scope.currentIndex > 0) ? --$scope.currentIndex : $scope.camimages.length - 1;
     };
 
     $scope.nextSlide = function () {
-        $scope.currentIndex = ($scope.currentIndex < $scope.camfiles.length - 1) ? ++$scope.currentIndex : 0;
+        $scope.currentIndex = ($scope.currentIndex < $scope.camimages.length - 1) ? ++$scope.currentIndex : 0;
     };
 
 

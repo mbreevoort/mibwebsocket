@@ -2,17 +2,22 @@ controller: {{name}}<br/>
 selected dir : {{params.dir}}<br/>
 <hr>
 
-<img ng-repeat="camfile in camfiles  | filter:'.jpg' | orderBy:'+'" class="slide"
-     ng-hide="!isCurrentSlideIndex($index)" ng-src="/images/cam1/{{params.dir}}/{{camfile}}">
+<img ng-repeat="camimage in camimages" class="slide"
+     ng-hide="!isCurrentSlideIndex($index)" ng-src="/images/cam1/{{params.dir}}/{{camimage}}"
+     title="{{params.dir}}/{{camimage}}">
 <br/>
-<a class="arrow prev" href="#" ng-click="nextSlide()">next</a>
-<a class="arrow next" href="#" ng-click="prevSlide()">prev</a>
+<a href="#" ng-click="prevSlide()">prev</a>
+<a href="#" ng-click="nextSlide()">next</a>
 <br/>
 <label for="sliderCtrl">Slider</label>
 <a href="#" id="sliderCtrl" ng-hide="!isSliderStarted()" ng-click="stopSlider()">stop</a>
 <a href="#" ng-hide="isSliderStarted()" ng-click="startSlider()">start</a>
 <p>
-    Current index {{currentIndex}} of {{camfiles.length}} images.
+    <label>Current index:
+        <input type="number" name="input" ng-model="currentIndex"
+               required>
+    </label>
+    of {{camimages.length}} images.
 </p>
 <ul>
     <li ng-repeat="camfile in camfiles  | filter:'.avi' | orderBy:'-'">
